@@ -1,14 +1,11 @@
-import { Component, computed, effect, inject, Injector, OnInit, signal } from '@angular/core';
-import { CoursesService } from "../services/courses.service";
-import { Course, sortCoursesBySeqNo } from "../models/course.model";
+import { Component, computed, inject, signal } from '@angular/core';
+import { MatDialog } from "@angular/material/dialog";
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { CoursesCardListComponent } from "../courses-card-list/courses-card-list.component";
-import { MatDialog } from "@angular/material/dialog";
-import { MessagesService } from "../messages/messages.service";
-import { catchError, from, throwError } from "rxjs";
-import { toObservable, toSignal, outputToObservable, outputFromObservable } from "@angular/core/rxjs-interop";
-import { CoursesServiceWithFetch } from '../services/courses-fetch.service';
 import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
+import { LoadingService } from '../loading/loading.service';
+import { Course, sortCoursesBySeqNo } from "../models/course.model";
+import { CoursesService } from "../services/courses.service";
 
 @Component({
   selector: 'home',
@@ -24,6 +21,7 @@ import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.c
 export class HomeComponent {
   coursesService = inject(CoursesService)
   dialog = inject(MatDialog)
+  loadingService = inject(LoadingService)
   #courses = signal<Course[]>([])
   beginnerCourses = computed(() => this.#courses().filter(course => course.category === 'BEGINNER'))
   advancedCourses = computed(() => this.#courses().filter(course => course.category === 'ADVANCED'))
