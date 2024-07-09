@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from "@angu
 import { firstValueFrom } from 'rxjs';
 import { CourseCategoryComboboxComponent } from "../course-category-combobox/course-category-combobox.component";
 import { LoadingIndicatorComponent } from "../loading/loading.component";
+import { MessagesService } from '../messages/messages.service';
 import { Course } from "../models/course.model";
 import { CoursesService } from "../services/courses.service";
 import { EditCourseDialogData } from "./edit-course-dialog.data.model";
@@ -23,6 +24,7 @@ export class EditCourseDialogComponent {
   dialogRef = inject(MatDialogRef)
   fb = inject(FormBuilder)
   coursesService = inject(CoursesService)
+  messagesService = inject(MessagesService)
 
   data: EditCourseDialogData = inject(MAT_DIALOG_DATA)
   form = this.fb.group({
@@ -50,7 +52,7 @@ export class EditCourseDialogComponent {
     if (this.data.mode === "update") {
       await this.saveCourse(this.data.course!.id, courseProps)
     }
-    if(this.data.mode === "create") {
+    if (this.data.mode === "create") {
       await this.createCourse(courseProps)
     }
   }
@@ -61,7 +63,7 @@ export class EditCourseDialogComponent {
       this.dialogRef.close(updatedCourse)
     } catch (error) {
       console.error(error)
-      alert(`Failed to save the course.`)
+      this.messagesService.showMessage('Failed to save the course.!', 'error')
     }
   }
 
@@ -71,7 +73,7 @@ export class EditCourseDialogComponent {
       this.dialogRef.close(newCourse)
     } catch (error) {
       console.error(error)
-      alert(`Failed to create the course.`)
+      this.messagesService.showMessage('Failed to create the course.!', 'error')
     }
   }
 }
