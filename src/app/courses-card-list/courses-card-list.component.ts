@@ -25,6 +25,9 @@ export class CoursesCardListComponent {
       title: "Update Existing Course",
       course
     })
+    if(!newCourse) {
+      return;
+    }
     this.courseUpdated.emit(newCourse)
   }
 

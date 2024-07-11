@@ -46,6 +46,9 @@ export class HomeComponent {
       mode: "create",
       title: "Update Existing Course"
     })
+    if(!newCourse) {
+      return;
+    }
     this.#courses.update(courses => [...courses, newCourse])
   }
 
