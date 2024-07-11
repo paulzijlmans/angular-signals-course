@@ -2,9 +2,9 @@ import { HttpClient, HttpContext } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { firstValueFrom, map } from "rxjs";
 import { environment } from "../../environments/environment";
+import { SkipLoading } from '../loading/skip-loading.component';
 import { Course } from "../models/course.model";
 import { GetCoursesResponse } from "../models/get-courses.response";
-import { SkipLoading } from '../loading/skip-loading.component';
 
 
 @Injectable({
@@ -21,6 +21,10 @@ export class CoursesService {
       }
     )
       .pipe(map(response => response.courses)))
+  }
+
+  async getCourseById(courseId: string): Promise<Course> {
+    return firstValueFrom(this.http.get<Course>(`${this.env.apiRoot}/courses/${courseId}`))
   }
 
   createCourse(course: Partial<Course>): Promise<Course> {
