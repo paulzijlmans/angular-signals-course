@@ -29,4 +29,10 @@ export class LessonsService {
       })
       .pipe(map(result => result.lessons)))
   }
+
+  async saveLesson(lessonId: string, changes: Partial<Lesson>): Promise<Lesson> {
+    return firstValueFrom(this.http.put<Lesson>(`${this.env.apiRoot}/lessons/${lessonId}`,
+      changes
+    ))
+  }
 }
